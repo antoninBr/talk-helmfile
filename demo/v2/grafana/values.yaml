@@ -1,0 +1,8 @@
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  enabled: true
+
+# Administrator credentials when not using an existing secret (see below)
+adminPassword: strongpassword
