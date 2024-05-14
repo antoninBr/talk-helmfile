@@ -16,10 +16,10 @@ helm repo update
 
 echo "Install Prometheus version $prometheus_version in namespace $namespace"
 
-helm install $prometheus_release_name prometheus-community/prometheus -f ./prometheus/values.yaml --namespace $namespace --version $prometheus_version
+helm upgrade $prometheus_release_name prometheus-community/prometheus -f ./prometheus/values.yaml --install --namespace $namespace --version $prometheus_version
 
 echo "Install Grafana version $grafana_version in namespace $namespace"
 
-helm install $grafana_release_name grafana/grafana -f ./grafana/values.yaml --namespace $namespace --version $grafana_version
+helm upgrade $grafana_release_name grafana/grafana -f ./grafana/values.yaml --install --namespace $namespace --version $grafana_version
 
 echo "Installation complete"
