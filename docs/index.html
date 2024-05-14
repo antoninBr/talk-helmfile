@@ -25,6 +25,7 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
+					<img src="img/helmfile_logo.png"/>
 					<h3>Going declarative with helmfile!</h3>
 					<p>
 						<small>Antonin Brugnot</small>
@@ -114,7 +115,7 @@
 						<h2>Vous avez vu le problème ?</h2>
 					</section>
 					<section data-auto-animate>
-						<h2 data-id="code-title">Script</h2>
+						<h2 data-id="code-title">Amended Script</h2>
 						<pre data-id="code-animation"><code class="hljs bash" data-trim data-line-numbers><script type="text/template">
 							helm upgrade $prometheus_release_name prometheus-community/prometheus \
 							-f ./prometheus/values.yaml \
@@ -155,7 +156,71 @@
 							<li>User friendly</li>
 							<li>...</li>
 						</ul>
-					</section>		
+					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">manage_monitoring_stack.sh</h2>
+						<pre data-id="code-animation"><code class="hljs bash" data-trim data-line-numbers="|1|2-3|5-15|48-50"><script type="text/template">
+						while true; do
+							printf 'What do you want to do (1 - Install, 2 - Upgrade release, 3 - Upgrade release only values, 4 - Uninstall release, 5 -Quit)? '
+							read action
+						
+							if [ "$action" != "${action#[1]}" ]
+							then 
+								add_update_repo
+								printf 'Which component (1 - Prometheus, 2 - Grafana)? '
+								read component
+								if [ "$component" != "${component#[1]}" ]
+								then 
+								   install_release $prometheus_release_name $prometheus_version $prometheus_repo_name
+								else
+								   install_release $grafana_release_name $grafana_version $grafana_repo_name     
+								fi
+							elif  [ "$action" != "${action#[2]}" ]
+							then 
+								add_update_repo
+								printf 'Which component (1 - Prometheus, 2 - Grafana)? '
+								read component
+								if [ "$component" != "${component#[1]}" ]
+								then 
+								   upgrade_release $prometheus_release_name $prometheus_version $prometheus_repo_name
+								else
+								   upgrade_release $grafana_release_name $grafana_version $grafana_repo_name     
+								fi
+							elif  [ "$action" != "${action#[3]}" ]
+							then
+								add_update_repo
+								printf 'Which component (1 - Prometheus, 2 - Grafana)? '
+								read component
+								if [ "$component" != "${component#[1]}" ]
+								then 
+								   upgrade_release $prometheus_release_name $prometheus_version $prometheus_repo_name
+								else
+								   upgrade_release $grafana_release_name $grafana_version $grafana_repo_name       
+								fi
+							elif  [ "$action" != "${action#[4]}" ]
+							then
+								printf 'Which component (1 - Prometheus, 2 - Grafana)? '
+								read component
+								if [ "$component" != "${component#[1]}" ]
+								then 
+								   uninstall_release $prometheus_release_name
+								else
+								   uninstall_release $grafana_release_name      
+								fi   
+							else
+								echo "Goodby"
+								exit 0;
+							fi    
+						done							
+						</script></code></pre>
+					</section>
+					<section>
+						<h2>En réalité</h2>
+						<ul>
+							<li>Sympathique...</li>
+							<li>... mais surtout inmaintenable</li>
+						</ul>						
+					</section>											
 				</section>
 				<section>
 					<section>
@@ -277,7 +342,10 @@
 					</section>
 					<section data-auto-animate>
 						<h2 data-id="code-title">Chiffrement</h2>
-						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers="|1-2|4-5"><script type="text/template">
+							cat ./grafana/secrets-clear.yaml
+							adminPassword: strongpassword
+
 							helm secrets encrypt ./grafana/secrets-clear.yaml \
 							> ./grafana/secrets.yaml
 						</script></code></pre>
@@ -317,8 +385,33 @@
 								version: 3.8.1
 						</script></code></pre>
 					</section>
+					<section>
+						<h2>Les autres plugins</h2>
+						<ul>
+							<li><a href="https://github.com/hypnoglow/helm-s3">helm-s3</a></li>
+							<li><a href="https://github.com/aslafy-z/helm-git">helm-git</a></li>
+							<li>Flexibilité pour les charts</li>
+							<li>Depuis repo git (publique/privé)</li>
+							<li>Depuis Amazon S3</li>
+						</ul>
+					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">Utilisation</h2>
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
+							helm repo add cert-manager git+https://github.com/jetstack/cert-manager@deploy/charts?ref=v0.6.2
+							
+							helm repo add coolcharts s3://bucket-name/charts
+						</script></code></pre>
+					</section>									
 				</section>				
-	
+				<section>
+					<section>
+						<h2 class="r-fit-text">Merci !</h2>
+					</section>
+					<section>
+						<h2>Merci !</h2>
+					</section>											
+				</section>	            
 			</div>
 		</div>
 
@@ -335,6 +428,7 @@
 				progress: true,
 				center: true,
 				hash: true,
+				slideNumber: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [RevealNotes, RevealMarkdown, RevealHighlight ]
