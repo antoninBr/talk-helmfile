@@ -218,7 +218,7 @@
 						<h2>En réalité</h2>
 						<ul>
 							<li>Sympathique...</li>
-							<li>... mais surtout inmaintenable</li>
+							<li class="fragment highlight-red">... mais surtout inmaintenable</li>
 						</ul>						
 					</section>											
 				</section>
@@ -232,7 +232,7 @@
 							<li><a href="https://github.com/helmfile/helmfile">helmfile/helmfile</a></li>
 							<li>Plusieurs années</li>
 							<li>v0.164.0</li>
-							<li>v1.0.0-rc.0</li>
+							<li class="fragment highlight-red">v1.0.0-rc.0</li>
 							<li>+100 contributeurs</li>
 						</ul>
 					</section>
@@ -242,7 +242,7 @@
 							<li>Rendre helm déclaratif</li>
 							<li>.... mais pas que</li>
 							<li>kubectl/terraform</li>
-							<li>+bonus</li>
+							<li class="fragment fade-up">+ bonus</li>
 						</ul>
 				    </section>				
 					<section data-auto-animate>
@@ -285,9 +285,9 @@
 					<section>
 						<h2>helmfile init</h2>
 						<ul>
-							<li>Installer helm si non présent</li>
-							<li>... ou trop vieux</li>							
-							<li>Et des plugins...</li>
+							<li class="fragment">Installer helm si non présent</li>
+							<li class="fragment">... ou trop vieux</li>							
+							<li class="fragment">Et des plugins...</li>
 						</ul>						
 					</section>
 					<section>
@@ -304,7 +304,7 @@
 						<ul>
 							<li>Appeler helm pour mettre le cluster dans l'état décrit dans le helmfile</li>
 							<li>helm upgrade --install</li>
-							<li>...en déchiffrant les secrets</li>
+							<li class="fragment highlight-green">...en déchiffrant les secrets</li>
 							<li>Gère les repos</li>
 						</ul>						
 					</section>
@@ -390,7 +390,7 @@
 						<ul>
 							<li><a href="https://github.com/hypnoglow/helm-s3">helm-s3</a></li>
 							<li><a href="https://github.com/aslafy-z/helm-git">helm-git</a></li>
-							<li>Flexibilité pour les charts</li>
+							<li>Flexibilité pour les charts/values</li>
 							<li>Depuis repo git (publique/privé)</li>
 							<li>Depuis Amazon S3</li>
 						</ul>
@@ -400,6 +400,9 @@
 						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
 							helm repo add cert-manager git+https://github.com/jetstack/cert-manager@deploy/charts?ref=v0.6.2
 							
+							helm install . \
+							-f git+https://github.com/aslafy-z/helm-git@tests/fixtures/example-chart/values.yaml
+
 							helm repo add coolcharts s3://bucket-name/charts
 						</script></code></pre>
 					</section>									
@@ -408,8 +411,25 @@
 					<section>
 						<h2 class="r-fit-text">Merci !</h2>
 					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">bio.yaml</h2>
+						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers><script type="text/template">
+							first_name: "Antonin"
+							family_name: "Brugnot"
+							company: "Onepoint"
+							twitter: null
+							personal_info:
+							  email: "a.brugnot@groupeonepoint.com"
+							  birth: "21st July, 1987"
+							  photo: "tronche_joviale.png"
+							  location: "Nantes"
+							summary: "Lead Tech, impl DEVOPS, FullStack Java, Cloud"
+
+						</script></code></pre>
+					</section>
 					<section>
-						<h2>Merci !</h2>
+						<img  style="max-width: 50%;" src="img/qrcode.svg"/>
+						<p>repo github (demo + slides)</p>
 					</section>											
 				</section>	            
 			</div>
