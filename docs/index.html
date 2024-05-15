@@ -41,6 +41,9 @@
 							<li>Helm</li>
 						</ul>
 					</section>
+					<section>
+						<img style="max-width: 125%;" src="img/k8s_monitoring.png"/>
+					</section>
 			    </section>
 				<section>
 					<section>
@@ -154,26 +157,34 @@
 							# Administrator credentials when not using an existing secret (see below)
 							adminPassword: strongpassword
 						</script></code></pre>
-					</section>					
+					</section>
+					<section>
+						<h2>C'est mieux !</h2>
+						<ul>
+							<li>Automatisable</li>
+							<li>Sans prétention</li>
+						</ul>						
+					</section>									
 				</section>
 				<section>
 					<section>
 						<h2>v3</h2>
 					</section>
 					<section>
-						<h2>Pas suffisant</h2>
+						<h2>Pas suffisant dans la durée</h2>
 						<ul>
 							<li>Manque de flexibilité</li>
-							<li>Uninstall</li>
+							<li>Uninstall ?</li>
 							<li>User friendly</li>
 							<li>...</li>
 						</ul>
 					</section>
 					<section data-auto-animate>
 						<h2 data-id="code-title">manage_monitoring_stack.sh</h2>
-						<pre data-id="code-animation"><code class="hljs bash" data-trim data-line-numbers="|1|2-3|5-15|48-50"><script type="text/template">
+						<pre data-id="code-animation"><code class="hljs bash" data-trim data-line-numbers="|1|2-4|6-16|49-51"><script type="text/template">
 						while true; do
-							printf 'What do you want to do (1 - Install, 2 - Upgrade release, 3 - Upgrade release only values, 4 - Uninstall release, 5 -Quit)? '
+							printf 'What do you want to do (1 - Install, 2 - Upgrade release,\
+							 3 - Upgrade release only values, 4 - Uninstall release, 5 -Quit)? '
 							read action
 						
 							if [ "$action" != "${action#[1]}" ]
@@ -230,7 +241,7 @@
 						<h2>Values</h2>
 						<ul>
 							<li>Par défaut</li>
-							<li>Souvent pas mal d'explications</li>
+							<li>Souvent pas mal d'explications (si si)</li>
 							<li><a href="https://artifacthub.io/">artifacthub.io</a></li>
 						</ul>
 					</section>					
@@ -258,6 +269,7 @@
 							<li>v0.164.0</li>
 							<li class="fragment highlight-red">v1.0.0-rc.0</li>
 							<li>+100 contributeurs</li>
+							<li><a href="https://helmfile.readthedocs.io/en/latest/users/">Beaucoup d'utilisateurs</a></li>
 						</ul>
 					</section>
 					<section>
@@ -429,7 +441,15 @@
 
 							helm repo add coolcharts s3://bucket-name/charts
 						</script></code></pre>
-					</section>									
+					</section>
+					<section>
+						<h2>A l'utilisation</h2>
+						<ul>
+							<li>Fonctionne bien</li>
+							<li>Maintenance simplifiée</li>				
+							<li class="fragment highlight-orange">... pas encore avec toute la puissance de helmfile</li>
+						</ul>						
+					</section>														
 				</section>				
 				<section>
 					<section>
