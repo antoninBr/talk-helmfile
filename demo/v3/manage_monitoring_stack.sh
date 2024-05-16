@@ -27,7 +27,7 @@ uninstall_release(){
 upgrade_release(){
     echo "Upgrading release $1 with version $2"
 
-    helm upgrade $1 $3/$1 -f ./$1/values.yaml --namespace $namespace --version $2
+    helm upgrade $1 $3/$1 -f ./$1/values.yaml --create-namespace --namespace $namespace --version $2
 
     echo "Release $1 upgraded"
 }
@@ -35,7 +35,7 @@ upgrade_release(){
 install_release(){
     echo "Installing release $1 with version $2"
 
-    helm install $1 $3/$1 -f ./$1/values.yaml --namespace $namespace --version $2
+    helm install $1 $3/$1 -f ./$1/values.yaml --create-namespace --namespace $namespace --version $2
 
     echo "Release $1 installed"
 }

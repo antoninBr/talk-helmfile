@@ -65,12 +65,14 @@
 					</section>		
 					<section data-auto-animate>
 						<h2 data-id="code-title">Comme sur les tutos</h2>
-						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers="|1-2|4|6-15"><script type="text/template">
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers="|1-2|4|6|8-20"><script type="text/template">
 							helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 							helm repo add grafana https://grafana.github.io/helm-charts
 							
 							helm repo update
 							
+							kubectl create namespace monitoring
+
 							helm install prometheus prometheus-community/prometheus \
 							--set alertmanager.enabled=false \
 							--namespace monitoring \
@@ -79,6 +81,9 @@
 							helm install grafana grafana/grafana \
 							--set persistence.enabled=true \
 							--set adminPassword=strongpassword \
+							--set ingress.enabled=true \
+							--set ingress.ingressClassName=contour \
+							--set ingress.hosts[0]=localhost \
 							--namespace monitoring \
 							--version 7.3.9
 						</script></code></pre>
@@ -115,14 +120,14 @@
 							
 							helm install $prometheus_release_name prometheus-community/prometheus \
 							-f ./prometheus/values.yaml \
-							--namespace $namespace \
+							--create-namespace --namespace $namespace \
 							--version $prometheus_version
 	
 							echo "Install Grafana version $grafana_version in namespace $namespace"
 							
 							helm install $grafana_release_name grafana/grafana \
 							-f ./grafana/values.yaml \
-							--namespace $namespace \
+							--create-namespace --namespace $namespace \
 							--version $grafana_version
 						</script></code></pre>
 					</section>
@@ -135,13 +140,13 @@
 							helm upgrade $prometheus_release_name prometheus-community/prometheus \
 							-f ./prometheus/values.yaml \
 							--install
-							--namespace $namespace \
+							--create-namespace --namespace $namespace \
 							--version $prometheus_version
 
 							helm upgrade $grafana_release_name grafana/grafana \
 							-f ./grafana/values.yaml \
 							--install							
-							--namespace $namespace \
+							--create-namespace --namespace $namespace \
 							--version $grafana_version
 						</script></code></pre>
 					</section>					
@@ -150,12 +155,20 @@
 						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers><script type="text/template">
 							## Enable persistence using Persistent Volume Claims
 							## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-							##
 							persistence:
 							  enabled: true
 							  
 							# Administrator credentials when not using an existing secret (see below)
 							adminPassword: strongpassword
+							
+							ingress:
+							  enabled: true
+  							  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+							  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+							  ingressClassName: nginx
+							  
+							  hosts:
+							  - localhost
 						</script></code></pre>
 					</section>
 					<section>
@@ -447,10 +460,15 @@
 						<ul>
 							<li>Fonctionne bien</li>
 							<li>Maintenance simplifiée</li>				
-							<li class="fragment highlight-orange">... pas encore avec toute la puissance de helmfile</li>
+							<li class="fragment highlight-orange">... mais helmfile n'a pas tout montré</li>
 						</ul>						
 					</section>														
-				</section>				
+				</section>
+				<section>
+					<section>
+						<h2>v5-final</h2>
+					</section>					
+				</section>		
 				<section>
 					<section>
 						<h2 class="r-fit-text">Merci !</h2>
