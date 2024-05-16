@@ -1,0 +1,4 @@
+environments:
+  production:
+    values:
+    - ./loki/production.yaml
