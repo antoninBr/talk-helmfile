@@ -20,5 +20,6 @@ releases:
   chart: grafana/grafana
   version: "7.3.9"
   values:
-  - "./grafana/values.yaml" 
+  - "./grafana/values.yaml"
+  secrets:
   - "./grafana/secrets.yaml"

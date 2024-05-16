@@ -165,7 +165,7 @@
 							  enabled: true
   							  # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
 							  # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-							  ingressClassName: nginx
+							  ingressClassName: contour
 							  
 							  hosts:
 							  - localhost
@@ -296,7 +296,7 @@
 				    </section>				
 					<section data-auto-animate>
 						<h2 data-id="code-title">Helmfile</h2>
-						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers="|1-5|7|8-11,15-17|12-13,18-19|20"><script type="text/template">
+						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers="|1-5|7|8-11,15-17|12-13,18-19|20-21"><script type="text/template">
 							repositories:
 							  - name: prometheus-community
 								url: https://prometheus-community.github.io/helm-charts
@@ -309,14 +309,15 @@
 								chart: prometheus-community/prometheus
 								version: "25.20.1"
 								values:
-								  - "./prometheus/values.yaml"
+								- "./prometheus/values.yaml"
 							  - name: grafana
 								namespace: monitoring
 								chart: grafana/grafana
 								version: "7.3.9"
 								values:
-								  - "./grafana/values.yaml" 
-								  - "./grafana/secrets.yaml"
+								- "./grafana/values.yaml"
+								secrets:
+								- "./grafana/secrets.yaml"
 						</script></code></pre>
 					</section>
 					<section data-auto-animate>
@@ -455,19 +456,47 @@
 							helm repo add coolcharts s3://bucket-name/charts
 						</script></code></pre>
 					</section>
+					<section data-auto-animate>
+						<h2 data-id="code-title">Layering</h2>
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
+							bases:
+							- base.yaml
+							---
+							
+							repositories:
+						</script></code></pre>
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
+							helmDefaults:
+							  wait: false
+							  timeout: 600
+							  createNamespace: true
+						</script></code></pre>
+					</section>
+					<section>
+						<img  style="max-width: 50%;" src="img/qrcode.svg"/>
+					</section>
 					<section>
 						<h2>A l'utilisation</h2>
 						<ul>
 							<li>Fonctionne bien</li>
 							<li>Maintenance simplifiée</li>				
-							<li class="fragment highlight-orange">... mais helmfile n'a pas tout montré</li>
+							<li class="fragment highlight-orange">... mais helmfile n'a pas encore tout montré</li>
 						</ul>						
 					</section>														
 				</section>
 				<section>
 					<section>
 						<h2>v5-final</h2>
-					</section>					
+					</section>
+					<section>
+						<h2>Environnements</h2>
+						<ul>
+							<li>Customisation du helfile.yaml et des values.yaml</li>
+							<li>dev, staging, prod</li>
+							<li>--environment NAME</li>	
+							<li><a href="https://helmfile.readthedocs.io/en/latest/#environment">La documentation</a></li>
+						</ul>						
+					</section>										
 				</section>		
 				<section>
 					<section>
@@ -486,7 +515,6 @@
 							  photo: "tronche_joviale.png"
 							  location: "Nantes"
 							summary: "Lead Tech, impl DEVOPS, FullStack Java, Cloud"
-
 						</script></code></pre>
 					</section>
 					<section>
