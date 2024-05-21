@@ -25,9 +25,3 @@ releases:
   - "./grafana/values.yaml"
   secrets:
   - "./grafana/secrets.yaml"
-- name: loki
-  namespace: monitoring
-  chart: grafana/loki
-  installed: {{ eq .Environment.Name "production" | toYaml }}
-  version: "6.5.2"
-  

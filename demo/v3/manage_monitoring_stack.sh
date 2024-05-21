@@ -19,7 +19,7 @@ add_update_repo(){
 uninstall_release(){
     echo "Uninstall release $1"
 
-    helm uninstall $1
+    helm uninstall $1 --namespace $namespace
 
     echo "Release $1 uninstalled"
 }
