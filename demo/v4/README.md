@@ -18,9 +18,12 @@ Et c'est tout.
 
 # Première installation
 
-Faire un `helmfile apply
+Faire un `helmfile apply`
 
 # Mise à jour des variables
+
+Faire un `helmfile diff`
+Faire un `helmfile apply`
 
 ## Cas d'un secret
 
