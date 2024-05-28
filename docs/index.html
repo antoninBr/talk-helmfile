@@ -535,13 +535,116 @@
 						</ul>						
 					</section>
 					<section>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							bases:
+							- base.yaml
+							- environments.yaml							
+						</script></code></pre>				
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							environments:
+							default:
+							  values:
+							  - default.yaml
+							production:
+							  values:
+							  - production.yaml
+						</script></code></pre>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							releaseName: prod
+						</script></code></pre>											
+					</section>
+					<section>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							- name: prometheus-{{ .Values.releaseName }}
+							namespace: monitoring
+							chart: prometheus-community/prometheus
+							version: "25.20.1"
+							values:
+							- "./prometheus/values.yaml"						
+						</script></code></pre>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							helmfile apply -environment production						
+						</script></code></pre>
+						<img src="img/helmfile-env.png"/>													
+					</section>					
+					<section>
 						<h2>Kustomize</h2>
 						<ul>
 							<li>Patching des ressources K8S après l'installation helm</li>
 							<li>kubectl -k</li>
 							<li>Natif</li>	
-							<li><a href="https://helmfile.readthedocs.io/en/latest/#environment">La documentation</a></li>
+							<li><a href="https://github.com/kubernetes-sigs/kustomize">La documentation Kustomize</a></li>
+							<li><a href="https://helmfile.readthedocs.io/en/latest/advanced-features/#deploy-kustomizations-with-helmfile">La documentation</a></li>
 						</ul>						
+					</section>
+					<section>
+						<img src="img/kubectl.gif"/>						
+					</section>
+					<section>	
+						<h2 data-id="code-title">Kustomization as Charts</h2>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							releases:
+							- name: kustomization
+							  namespace: monitoring
+							  chart: ./kustom
+							  values:
+							  - namePrefix: kustomapp-  
+						</script></code></pre>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							resources:
+							- all.yaml
+						</script></code></pre>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							apiVersion: v1
+							kind: ConfigMap
+							metadata:
+							  name: kustomapp
+							  namespace: monitoring
+							data:
+							  kustomappfoo: FOO
+						</script></code></pre>																	
+					</section>
+					<section>
+						<h2 data-id="code-title">Adhoc Kustomization of Helm charts</h2>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers="|1|9-16"><script type="text/template">
+							- name: grafana
+							  namespace: monitoring
+							  chart: grafana/grafana
+							  version: "7.3.9"
+							  values:
+							  - "./grafana/values.yaml"
+							  secrets:
+							  - "./grafana/secrets.yaml"
+							  strategicMergePatches:
+							    - apiVersion: v1
+								  kind: ConfigMap
+								  metadata:
+								    name: grafana
+								    namespace: monitoring
+								  data:
+								    bar: BAR 
+						</script></code></pre>
+						<small>Pas compatible avec patches</small>											
+					</section>
+					<section>
+						<h2 data-id="code-title">Adhoc Kustomization of Helm charts - Transformers</h2>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers="|1|9-15"><script type="text/template">
+							- name: grafana
+							  namespace: monitoring
+							  chart: grafana/grafana
+							  version: "7.3.9"
+							  values:
+							  - "./grafana/values.yaml"
+							  secrets:
+							  - "./grafana/secrets.yaml"
+							  transformers:
+							  - apiVersion: builtin
+								kind: AnnotationsTransformer
+								metadata:
+								  name: notImportantHere
+								annotations:
+								  kubectl.kubernetes.io/default-container: grafana-dev
+						</script></code></pre>		
 					</section>
 					<section>
 						<h2>Integrations</h2>

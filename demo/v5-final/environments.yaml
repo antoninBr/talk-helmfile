@@ -1,3 +1,7 @@
 environments:
   default:
+    values:
+    - default.yaml
   production:
+    values:
+    - production.yaml

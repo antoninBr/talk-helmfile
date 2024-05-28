@@ -11,13 +11,18 @@ repositories:
    url: https://grafana.github.io/helm-charts
 
 releases:
-- name: prometheus
+- name: kustomization
+  namespace: monitoring
+  chart: ./kustom
+  values:
+  - namePrefix: kustomapp-  
+- name: prometheus-{{ .Values.releaseName }}
   namespace: monitoring
   chart: prometheus-community/prometheus
   version: "25.20.1"
   values:
   - "./prometheus/values.yaml"
-- name: grafana
+- name: grafana-{{ .Values.releaseName }}
   namespace: monitoring
   chart: grafana/grafana
   version: "7.3.9"
@@ -25,3 +30,11 @@ releases:
   - "./grafana/values.yaml"
   secrets:
   - "./grafana/secrets.yaml"
+  strategicMergePatches:
+    - apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: grafana-{{ .Values.releaseName }}
+        namespace: monitoring
+      data:
+        bar: BAR 
