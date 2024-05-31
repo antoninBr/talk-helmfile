@@ -40,12 +40,18 @@
 							<li>Prometheus/Grafana</li>
 							<li>Helm</li>
 						</ul>
+						<aside class="notes">
+							Très classique comme stack
+						</aside>
 					</section>
 					<section>
 						<img style="max-width: 125%;" src="img/k8s_monitoring.png"/>
 					</section>
 					<section>
-						<p  class="animate__fadeInDown" data-split="words">Un Chart est un package Helm; il est défini par son nom et sa version. Il s’agit d’un fichier tar.gz, un dossier compressé.</p>
+						<aside class="notes">
+							Pour vous aider sur les termes des slides d'après
+						</aside>
+						<p  class="animate__fadeInDown" data-split="words">Un(e) Chart est un package Helm; il est défini par son nom et sa version. Il s’agit d’un fichier tar.gz, un dossier compressé contenant des templates.</p>
 						<p  class="animate__fadeInDown" data-split="words">Pour récupérer un Chart, Helm va devoir avoir connaissance du registre où il est enregistré.</p>
 						<p  class="animate__fadeInDown" data-split="words">Une installation d’un Chart sur un cluster est appelée une Release.</p>	
 					</section>
@@ -67,6 +73,9 @@
 							sudo apt-get update
 							sudo apt-get install helm
 						</script></code></pre>
+						<aside class="notes">
+							Marche aussi en binaire ou une image docker
+						</aside>
 					</section>		
 					<section data-auto-animate>
 						<h2 data-id="code-title">Comme sur les tutos</h2>
@@ -92,6 +101,9 @@
 							--namespace monitoring \
 							--version 7.3.9
 						</script></code></pre>
+						<aside class="notes">
+							Impératif, pas comme kubectl qui est les deux
+						</aside>
 					</section>
 					<section>
 						<img src="img/grafana-access.gif"/>
@@ -141,6 +153,10 @@
 					</section>
 					<section>
 						<h2>Vous avez vu le problème ?</h2>
+						<aside class="notes">
+							TA part que c'est en shell.
+							On ne peut pas le jouer deux fois de suite.
+						</aside>
 					</section>
 					<section data-auto-animate>
 						<h2 data-id="code-title">Amended Script</h2>
@@ -178,6 +194,9 @@
 							  hosts:
 							  - localhost
 						</script></code></pre>
+						<aside class="notes">
+							Je préfère les values à set, meme si des fois je me surprends à les utiliser
+						</aside>
 					</section>
 					<section>
 						<img src="img/helmfile-v2.gif">				
@@ -270,7 +289,12 @@
 						</ul>
 					</section>	
 					<section>
-						<img src="img/artifacthub.gif">						
+						<img src="img/artifacthub.gif">			
+						<aside class="notes">
+							On peut rechercher
+							COmparer les templates dans les chart
+							Récupérer les valeurs par défaut toutes belles
+						</aside>			
 					</section>				
 					<section>
 						<h2>Moi</h2>
@@ -316,7 +340,18 @@
 							<li>kubectl/terraform</li>
 							<li class="fragment fade-up">+ bonus</li>
 						</ul>
-				    </section>				
+				    </section>
+					<section>
+						<h2>Avec Terraform</h2>
+						<aside class="notes">
+							Seulement quand vous créer toute l'infra chez un cloud provider et que certain
+							outil font parti du socle (monitoring)
+						</aside>
+						<p><a href="https://registry.terraform.io/modules/terraform-module/release/helm/latest">module release</a></p>
+
+						<img src="img/thor_hammer.jpg"/>
+						
+					</section>		
 					<section data-auto-animate>
 						<h2 data-id="code-title">Helmfile</h2>
 						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers="|1-5|7|8-11,15-17|12-13,18-19|20-21"><script type="text/template">
@@ -354,6 +389,9 @@
 	
 							helmfile apply
 						</script></code></pre>
+						<aside class="notes">
+							Il y a d'autre méthode, mais c'est celles là les plus importantes
+						</aside>
 					</section>
 					<section>
 						<h2>helmfile init</h2>
@@ -361,7 +399,10 @@
 							<li class="fragment">Installer helm si non présent</li>
 							<li class="fragment">... ou trop vieux</li>							
 							<li class="fragment">Et des plugins...</li>
-						</ul>						
+						</ul>	
+						<aside class="notes">
+							Marche aussi pour une MàJ
+						</aside>					
 					</section>
 					<section>
 						<h2>helmfile diff</h2>
@@ -397,6 +438,9 @@
 							<li>Chiffrement dans les sources</li>
 							<li>Déchiffrement à l'installation</li>
 						</ul>
+						<aside class="notes">
+							SOPS c'est très bien et ça s'interface avec les cloud providers et vault
+						</aside>
 					</section>
 					<section data-auto-animate>
 						<h2 data-id="code-title">Generation clé gpg</h2>
@@ -457,6 +501,10 @@
 								unencrypted_suffix: _unencrypted
 								version: 3.8.1
 						</script></code></pre>
+						<aside class="notes">
+							N'ayez pas peur !
+							C'est très logique et c'est pour sops
+						</aside>
 					</section>
 					<section>
 						<h2>Les autres plugins</h2>
@@ -467,6 +515,9 @@
 							<li>Depuis repo git (publique/privé)</li>
 							<li>Depuis Amazon S3</li>
 						</ul>
+						<aside class="notes">
+							Plugin helm-git c'est vraiment essentiel
+						</aside>
 					</section>
 					<section data-auto-animate>
 						<h2 data-id="code-title">Utilisation</h2>
@@ -575,7 +626,10 @@
 							<li>Natif</li>	
 							<li><a href="https://github.com/kubernetes-sigs/kustomize">La documentation Kustomize</a></li>
 							<li><a href="https://helmfile.readthedocs.io/en/latest/advanced-features/#deploy-kustomizations-with-helmfile">La documentation</a></li>
-						</ul>						
+						</ul>					
+						<aside class="notes">
+							Pas trop souvent sur des charts très customizables, mais certaines...
+						</aside>	
 					</section>
 					<section>
 						<img src="img/kubectl.gif"/>						
@@ -624,7 +678,10 @@
 								  data:
 								    bar: BAR 
 						</script></code></pre>
-						<small>Pas compatible avec patches</small>											
+						<small>Pas compatible avec patches</small>	
+						<aside class="notes">
+							Pas trop d'exemples
+						</aside>										
 					</section>
 					<section>
 						<h2 data-id="code-title">Adhoc Kustomization of Helm charts - Transformers</h2>
@@ -644,7 +701,10 @@
 								  name: notImportantHere
 								annotations:
 								  kubectl.kubernetes.io/default-container: grafana-dev
-						</script></code></pre>		
+						</script></code></pre>	
+						<aside class="notes">
+							Puissant les transformers
+						</aside>	
 					</section>
 					<section>
 						<h2>Integrations</h2>
