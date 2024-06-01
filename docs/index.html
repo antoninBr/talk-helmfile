@@ -348,10 +348,23 @@
 							outil font parti du socle (monitoring)
 						</aside>
 						<p><a href="https://registry.terraform.io/modules/terraform-module/release/helm/latest">module release</a></p>
-
 						<img src="img/thor_hammer.jpg"/>
-						
-					</section>		
+					</section>
+					<section>
+						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers><script type="text/template">
+							resource "helm_release" "nginx_ingress" {
+								name       = "nginx-ingress-controller"
+							  
+								repository = "https://charts.bitnami.com/bitnami"
+								chart      = "nginx-ingress-controller"
+							  
+								set {
+								  name  = "service.type"
+								  value = "ClusterIP"
+								}
+							  }
+						</script></code></pre>
+					</section>	
 					<section data-auto-animate>
 						<h2 data-id="code-title">Helmfile</h2>
 						<pre data-id="code-animation"><code class="hljs yaml" data-trim data-line-numbers="|1-5|7|8-11,15-17|12-13,18-19|20-21"><script type="text/template">
