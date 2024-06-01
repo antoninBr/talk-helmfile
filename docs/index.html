@@ -562,6 +562,20 @@
 					</section>
 					<section>
 						<img src="img/helmfile-v4-destroy.gif"/>
+					</section>
+					<section>
+						<h2 data-id="code-title">Stacktraces</h2>
+						<pre data-id="code-animation"><code class="hljs python" data-trim data-line-numbers><script type="text/template">
+						in ./helmfile.yaml: [exit status 1
+
+						COMMAND:
+						  helm fetch grafana/grafana --untar -d /tmp/chartify2731773764/monitoring/grafana-dev --version 7.3.9
+						
+						OUTPUT:
+						  Error: Get "https://github.com/grafana/helm-charts/releases/download/grafana-7.3.9/grafana-7.3.9.tgz":
+						   dial tcp: lookup github.com on 8.8.8.8:53: read udp 172.17.14.239:41863->8.8.8.8:53: 
+						   i/o timeout]		
+						</script></code></pre>						   				
 					</section>									
 					<section>
 						<h2>A l'utilisation</h2>
@@ -647,6 +661,10 @@
 						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
 							resources:
 							- all.yaml
+							configMapGenerator:
+							- name: example-configmap-1
+							  files:
+							  - application.properties
 						</script></code></pre>
 						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
 							apiVersion: v1
@@ -657,6 +675,12 @@
 							data:
 							  kustomappfoo: FOO
 						</script></code></pre>																	
+					</section>
+					<section>
+						<pre data-id="code-animation"><code class="hljs python"  data-trim data-line-numbers><script type="text/template">
+							Building dependency release=kustomization, 
+							chart=/tmp/chartify2131697153/monitoring/kustomization
+						</script></code></pre>
 					</section>
 					<section>
 						<h2 data-id="code-title">Adhoc Kustomization of Helm charts</h2>
@@ -707,10 +731,25 @@
 						</aside>	
 					</section>
 					<section>
+						<h2>Everything as Charts</h2>
+						<ul>
+							<li>Ressources Kubernetes dans les sources</li>
+							<li>Gérées comme une Chart par helmfile</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Autres features</h2>
+						<ul>
+							<li>dependencies</li>
+							<li>templating</li>
+							<li>modules</li>
+						</ul>
+					</section>
+					<section>
 						<h2>Integrations</h2>
 						<ul>
 							<li><a href="https://github.com/lucj/argocd-helmfile-plugin">argocd-helmfile-plugin</a></li>
-							<li>docker pull chatwork/helmfile</a></li>
+							<li>docker pull helmfile/helmfile</a></li>
 							<li><a href="https://docs.renovatebot.com/modules/manager/helmfile/">Renovate</a></li>
 						</ul>	
 					</section>
@@ -718,7 +757,7 @@
 						<img  style="max-width: 70%;" src="img/argocd.png"/>
 						<p><a href="https://medium.com/gumgum-tech/streamlining-your-kubernetes-adoption-with-helmfile-argocd-and-gitops-211937e21e29">Très bon article GitOps Helmfile + ArgoCD</a></p>
 						<aside class="notes">
-							Ils installes argoCD sur le cluster avec module release terraform pour éviter la dépendance cyclique
+							Ils installent argoCD sur le cluster avec module release terraform pour éviter la dépendance cyclique
 						</aside>	
 					</section>							
 				</section>		
